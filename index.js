@@ -11,10 +11,6 @@ app.get('/', (req, res) => {
   res.send('Bienvenido a mi servidor')
 })
 
-app.listen(port, ()=>{
-    console.log(`Listening on http://localhost:${port}`)
-})
-
 app.get('/saludo', (req, res) => {
     res.send('¡Hola, mundo!')
 })
@@ -33,4 +29,8 @@ app.get('/productos', (req, res) => {
 
 app.get('/materias', (req, res) => {
     res.json(materias)
+})
+
+app.listen(port, ()=>{
+    console.log(`Listening on http://localhost:${port}`)
 })
