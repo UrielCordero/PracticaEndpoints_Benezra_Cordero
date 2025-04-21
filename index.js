@@ -1,11 +1,13 @@
-import express from 'express'
+import express from 'express';
 
 const app = express()
 const port=3000;
+app.use(express.json());
 
 const usuario={ "nombre":"Ana", "edad": 25 }
 const productos=["Mouse", "Teclado", "Monitor"];
 const materias=[ { "nombre": "Matemática" }, { "nombre": "Lengua" } ] 
+const personas=[];
 
 app.get('/', (req, res) => {
   res.send('Bienvenido a mi servidor')
@@ -31,6 +33,28 @@ app.get('/materias', (req, res) => {
     res.json(materias)
 })
 
+app.get('/personas', (req, res)=>{
+    res.json(personas);
+})
+
+app.post('/personas', (req, res)=>{
+    let persona = req.body;
+    if (!persona){
+        return res.status(400).json({ error: 'La persona que queres agregar esta vacia/incompleta' });
+    }
+    personas.push(persona);
+    res.status(201).json({ mensaje: 'Persona solicitada agregada', personas });
+})
+
+app.delete('/personas/:indice', (req, res)=>{
+    const indice=parseInt(req.params.indice);
+    if(isNaN(indice) && !personas[indice]){
+        return res.status(404).json({error:'Persona no encontrada'});
+    }
+    const personaEliminada = personas.splice(indice, 1);
+    res.status(204).json({ mensaje: `Persona eliminada: ${personaEliminada[0].nombre}`, personas });
+})
+
 app.listen(port, ()=>{
-    console.log(`Listening on http://localhost:${port}`)
+    console.log(`Listening on http://localhost:${port}`);
 })
