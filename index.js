@@ -48,11 +48,11 @@ app.post('/personas', (req, res)=>{
 
 app.delete('/personas/:indice', (req, res)=>{
     const indice=parseInt(req.params.indice);
-    if(isNaN(indice) && !personas[indice]){
+    if(isNaN(indice) || !personas[indice]){
         return res.status(404).json({error:'Persona no encontrada'});
     }
     const personaEliminada = personas.splice(indice, 1);
-    res.status(204).json({ mensaje: `Persona eliminada: ${personaEliminada[0].nombre}`, personas });
+    res.status(200).json({ mensaje: `Persona eliminada: ${personaEliminada[0].nombre}`, personas });
 })
 
 app.listen(port, ()=>{
